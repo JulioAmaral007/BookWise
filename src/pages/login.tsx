@@ -5,11 +5,15 @@ import {
   LogoSection,
   WelcomeSection,
 } from '@/styles/pages/login'
+import Head from 'next/head'
 import Image from 'next/image'
 
 export default function Login() {
   return (
     <LoginContainer>
+      <Head>
+        <title>Login | BookWise</title>
+      </Head>
       <LogoSection>
         <Image
           src="/images/logo.svg"

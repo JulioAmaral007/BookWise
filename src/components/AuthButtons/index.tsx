@@ -1,10 +1,27 @@
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { AuthButton, Container } from './styles'
 
-export function AuthButtons() {
+type AuthButtonsProps = {
+  callbackUrl?: string
+}
+
+export const AuthButtons = ({ callbackUrl = '/' }: AuthButtonsProps) => {
+  const router = useRouter()
+  const handleSingIn = (provider?: string) => {
+    if (!provider) {
+      router.push(callbackUrl)
+      return
+    }
+    signIn(provider, {
+      callbackUrl,
+    })
+  }
+
   return (
     <Container>
-      <AuthButton>
+      <AuthButton onClick={() => handleSingIn('google')}>
         <Image
           src="/images/icons/google.svg"
           alt="Logo Google"
@@ -13,7 +30,7 @@ export function AuthButtons() {
         />
         Entrar com Google
       </AuthButton>
-      <AuthButton>
+      <AuthButton onClick={() => handleSingIn('github')}>
         <Image
           src="/images/icons/github.svg"
           alt="Logo Github"
@@ -22,7 +39,7 @@ export function AuthButtons() {
         />
         Entrar com Github
       </AuthButton>
-      <AuthButton>
+      <AuthButton onClick={() => handleSingIn()}>
         <Image
           src="/images/icons/rocket.svg"
           alt="Icon Rocket"
