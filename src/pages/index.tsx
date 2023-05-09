@@ -1,9 +1,15 @@
+import { LatestRatings } from '@/components/LatestRatings'
 import { DefaultLayout } from '@/layouts/DefaultLayout'
+import { HomeContainer } from '@/styles/pages/home'
 import { ReactElement } from 'react'
 import { NextPageWithLayout } from './_app'
 
 const HomePage: NextPageWithLayout = () => {
-  return <h1>hekk</h1>
+  return (
+    <HomeContainer>
+      <LatestRatings />
+    </HomeContainer>
+  )
 }
 
 HomePage.getLayout = (page: ReactElement) => {
