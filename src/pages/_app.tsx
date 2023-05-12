@@ -1,4 +1,6 @@
+import { queryClient } from '@/lib/react-query'
 import { globalStyles } from '@/styles/globals'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { NextPage } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'
@@ -25,19 +27,21 @@ export default function App({
   const getLayout = Component.getLayout ?? ((page) => page)
   return (
     <>
-      <SessionProvider session={session}>
-        <div className={nunito.className}>
-          <Head>
-            <meta name="description" content="" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1"
-            />
-            <link rel="icon" href="/favicon.svg" />
-          </Head>
-          {getLayout(<Component {...pageProps} />)}
-        </div>
-      </SessionProvider>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider session={session}>
+          <div className={nunito.className}>
+            <Head>
+              <meta name="description" content="" />
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1"
+              />
+              <link rel="icon" href="/favicon.svg" />
+            </Head>
+            {getLayout(<Component {...pageProps} />)}
+          </div>
+        </SessionProvider>
+      </QueryClientProvider>
     </>
   )
 }

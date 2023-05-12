@@ -1,9 +1,20 @@
-import { BookCard } from '../BookCard'
+import { api } from '@/lib/axios'
+import { useQuery } from '@tanstack/react-query'
+import { BookCard, BookWithAvgRating } from '../BookCard'
 import { Text } from '../Typograph'
 import { Link } from '../ui/Link'
 import { Container } from './styles'
 
 export const PopularBooks = () => {
+  const { data: popularBooks } = useQuery<BookWithAvgRating[]>(
+    ['popular-books'],
+    async () => {
+      const { data } = await api.get('/books/popular')
+
+      return data?.books ?? []
+    },
+  )
+
   return (
     <Container>
       <header>
@@ -12,20 +23,8 @@ export const PopularBooks = () => {
       </header>
 
       <section>
-        {Array.from({ length: 4 }).map((_, index) => (
-          <BookCard
-            key={`popular-${index}`}
-            book={{
-              author: 'Júlio Cezar',
-              avgRating: 4,
-              cover_url: 'https://avatars.githubusercontent.com/u/92815712?v=4',
-              created_at: new Date(),
-              id: 'sdvhodhi',
-              name: 'lorem1aaaaaaaaaaaaaaaaaaaa22d',
-              summary: 'lorem2fbdfbvfdbvdfvbvdfbdf2',
-              total_pages: 100,
-            }}
-          />
+        {popularBooks?.map((book) => (
+          <BookCard key={`popular-${book.id}`} book={book} />
         ))}
       </section>
     </Container>
