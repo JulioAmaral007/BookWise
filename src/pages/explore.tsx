@@ -1,3 +1,4 @@
+import { BookCard, BookWithAvgRating } from '@/components/BookCard'
 import { Input } from '@/components/ui/Form/Input'
 import { PageTitle } from '@/components/ui/PageTitle'
 import { Tag } from '@/components/ui/Tag'
@@ -25,6 +26,25 @@ const ExplorePage: NextPageWithLayout = () => {
       return data?.categories ?? []
     },
   )
+
+  const { data: books } = useQuery<BookWithAvgRating[]>(
+    ['books', selectedCategory],
+    async () => {
+      const { data } = await api.get('/books', {
+        params: {
+          category: selectedCategory,
+        },
+      })
+      return data?.books ?? []
+    },
+  )
+
+  const filteredBooks = books?.filter((book) => {
+    return (
+      book.name.toLowerCase().includes(search.toLowerCase()) ||
+      book.author.toLowerCase().includes(search.toLowerCase())
+    )
+  })
 
   return (
     <ExploreContainer>
@@ -57,7 +77,11 @@ const ExplorePage: NextPageWithLayout = () => {
         ))}
       </TagsContainer>
 
-      <BooksGrid>{/*         <BookCard size="lg" book={} /> */}</BooksGrid>
+      <BooksGrid>
+        {filteredBooks?.map((book) => (
+          <BookCard key={book.id} size="lg" book={book} />
+        ))}
+      </BooksGrid>
     </ExploreContainer>
   )
 }
