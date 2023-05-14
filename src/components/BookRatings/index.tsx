@@ -1,9 +1,13 @@
 import { Text } from '../Typograph'
-import { UserRatingCard } from '../UserRatingCard'
+import { RatingWithAuthor, UserRatingCard } from '../UserRatingCard'
 import { Link } from '../ui/Link'
 import { Container } from './styles'
 
-export const BookRatings = () => {
+type BookRatingsProps = {
+  ratings: RatingWithAuthor[]
+}
+
+export const BookRatings = ({ ratings }: BookRatingsProps) => {
   const handleRate = () => {
     console.log('avaliar')
   }
@@ -16,20 +20,8 @@ export const BookRatings = () => {
       </header>
 
       <section>
-        {Array.from({ length: 5 }).map((_, i) => (
-          <UserRatingCard
-            key={i}
-            rating={{
-              rate: 2,
-              user: {
-                name: 'julio',
-                avatar_url: '',
-              },
-              created_at: new Date(),
-              description:
-                'dbsksmncsdhskj            jjjjjjjj            jjjjjjjjjjjoiiiiii         iiiiiisssssssssssss',
-            }}
-          />
+        {ratings.map((rating) => (
+          <UserRatingCard key={rating.id} rating={rating} />
         ))}
       </section>
     </Container>
