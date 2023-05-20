@@ -13,14 +13,14 @@ import { Heading, Text } from '../Typograph'
 import { RatingWithAuthor } from '../UserRatingCard'
 import { BookInfo } from './BookInfo'
 import {
-   BookContent,
-   BookDetailsContainer,
-   BookDetailsWrapper,
-   BookImage,
-   BookInfos,
-   DialogClose,
-   DialogContent,
-   DialogOverlay,
+  BookContent,
+  BookDetailsContainer,
+  BookDetailsWrapper,
+  BookImage,
+  BookInfos,
+  DialogClose,
+  DialogContent,
+  DialogOverlay,
 } from './styles'
 
 type BookDetails = BookWithAvgRating & {

@@ -4,10 +4,14 @@ import { useRouter } from 'next/router'
 import { AuthButton, Container } from './styles'
 
 type AuthButtonsProps = {
+  canGuest?: boolean
   callbackUrl?: string
 }
 
-export const AuthButtons = ({ callbackUrl = '/' }: AuthButtonsProps) => {
+export const AuthButtons = ({
+  canGuest,
+  callbackUrl = '/',
+}: AuthButtonsProps) => {
   const router = useRouter()
   const handleSingIn = (provider?: string) => {
     if (!provider) {
@@ -39,15 +43,17 @@ export const AuthButtons = ({ callbackUrl = '/' }: AuthButtonsProps) => {
         />
         Entrar com Github
       </AuthButton>
-      <AuthButton onClick={() => handleSingIn()}>
-        <Image
-          src="/images/icons/rocket.svg"
-          alt="Icon Rocket"
-          width={30}
-          height={30}
-        />
-        Entrar como Visitante
-      </AuthButton>
+      {canGuest && (
+        <AuthButton onClick={() => handleSingIn()}>
+          <Image
+            src="/images/icons/rocket.svg"
+            alt="Icon Rocket"
+            width={30}
+            height={30}
+          />
+          Entrar como Visitante
+        </AuthButton>
+      )}
     </Container>
   )
 }
